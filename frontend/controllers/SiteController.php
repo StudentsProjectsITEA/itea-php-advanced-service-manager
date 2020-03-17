@@ -257,4 +257,14 @@ class SiteController extends Controller
             'model' => $model
         ]);
     }
+
+    /**
+     * Regulations static page
+     *
+     * @return mixed
+     */
+    public function actionRegulations()
+    {
+        return $this->render('regulations');
+    }
 }
