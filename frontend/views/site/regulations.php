@@ -4,6 +4,8 @@
 
 use yii\helpers\Html;
 
+/* TODO: Transfer the information to database */
+
 $this->title = 'Правила использования';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
