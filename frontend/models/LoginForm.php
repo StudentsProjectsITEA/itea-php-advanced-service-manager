@@ -1,20 +1,30 @@
 <?php
-namespace common\models;
+
+declare(strict_types=1);
+
+namespace frontend\models;
 
 use Yii;
 use yii\base\Model;
 
+
 /**
- * Login form
+ * Class LoginForm
+ *
+ * @package frontend\models
  */
 class LoginForm extends Model
 {
+    /** @var string $username */
     public $username;
+
+    /** @var string $password */
     public $password;
-    public $rememberMe = true;
+
+    /** @var bool $rememberMe */
+    public bool $rememberMe = true;
 
     private $_user;
-
 
     /**
      * {@inheritdoc}
@@ -58,7 +68,7 @@ class LoginForm extends Model
         if ($this->validate()) {
             return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
         }
-        
+
         return false;
     }
 
@@ -76,3 +86,4 @@ class LoginForm extends Model
         return $this->_user;
     }
 }
+
