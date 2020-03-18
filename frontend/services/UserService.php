@@ -33,7 +33,6 @@ class UserService
         $this->userRepository = $userRepository;
     }
 
-
     /**
      * Logs in a user using the provided username and password.
      *
