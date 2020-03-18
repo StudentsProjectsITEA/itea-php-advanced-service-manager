@@ -47,6 +47,17 @@ return [
         ],
         */
     ],
+    'container' => [
+        'singletons' => [
+            \frontend\repositories\UserRepository::class,
+            \frontend\services\UserService::class => [
+                [],
+                [
+                    \yii\di\Instance::of(\frontend\repositories\UserRepository::class),
+                ],
+            ],
+        ],
+    ],
     'params' => $params,
 ];
 
