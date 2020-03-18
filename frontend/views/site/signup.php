@@ -23,6 +23,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($model, 'email') ?>
 
+                <?= $form->field($model, 'mobile')->widget(\yii\widgets\MaskedInput::class,
+                                                           ['mask'=>'(999) 999-99-99',
+                                                               'clientOptions' => [
+                                                                   'removeMaskOnSubmit' => true,
+                                                               ]
+                                                           ]); ?>
+
                 <?= $form->field($model, 'password')->passwordInput() ?>
 
                 <div class="form-group">

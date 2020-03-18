@@ -1,17 +1,25 @@
 <?php
 namespace frontend\models;
 
+use Ramsey\Uuid\Uuid;
 use Yii;
 use yii\base\Model;
-use common\models\User;
 
 /**
  * Signup form
  */
 class SignupForm extends Model
 {
+    /** @var string $username */
     public $username;
+
+    /** @var string $email */
     public $email;
+
+    /** @var int $mobile */
+    public $mobile;
+
+    /** @var string $password */
     public $password;
 
 
@@ -23,14 +31,19 @@ class SignupForm extends Model
         return [
             ['username', 'trim'],
             ['username', 'required'],
-            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
+            ['username', 'unique', 'targetClass' => '\frontend\models\User', 'message' => 'This username has already been taken.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
 
             ['email', 'trim'],
             ['email', 'required'],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
-            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
+            ['email', 'unique', 'targetClass' => '\frontend\models\User', 'message' => 'This email address has already been taken.'],
+
+            ['mobile', 'trim'],
+            ['mobile', 'required'],
+            ['mobile', 'string', 'min' => 10],
+            ['mobile', 'unique', 'targetClass' => '\frontend\models\User', 'message' => 'This mobile number has already been taken.'],
 
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
@@ -49,8 +62,10 @@ class SignupForm extends Model
         }
         
         $user = new User();
+        $user->id = Uuid::uuid4()->toString();
         $user->username = $this->username;
         $user->email = $this->email;
+        $user->mobile = $this->mobile;
         $user->setPassword($this->password);
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
@@ -76,4 +91,19 @@ class SignupForm extends Model
             ->setSubject('Account registration at ' . Yii::$app->name)
             ->send();
     }
+
+
+    /**
+     * Convert mobile number from input mask to integer
+     *
+     * @param string $mobile
+     *
+     * @return int
+     */
+    private function convertMobile(string $mobile): int
+    {
+        $mobile = str_replace(['+', '(', ')', ' '], '', $mobile);
+        return (int) $mobile;
+    }
 }
+
