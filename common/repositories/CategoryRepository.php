@@ -6,12 +6,32 @@ use common\models\Category;
 
 class CategoryRepository
 {
+    /**
+     * Return category by id
+     *
+     * @param string $id
+     *
+     * @return Category
+     */
     public function findCategory(string $id): Category
     {
         return Category::findOne($id);
     }
 
+
     /**
+     * Return all categories
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCategories()
+    {
+        return Category::find();
+    }
+
+    /**
+     * Save category
+     *
      * @param Category $category
      *
      * @return bool

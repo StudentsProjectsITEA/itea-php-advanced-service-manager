@@ -34,7 +34,7 @@ class CategoryService
      */
     public function getCategories(): ActiveQuery
     {
-        return Category::find();
+        return $this->categoryRepository->getCategories();
     }
 
     /**
