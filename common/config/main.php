@@ -1,4 +1,9 @@
 <?php
+
+use common\components\CategoryService;
+use common\repositories\CategoryRepository;
+use yii\di\Instance;
+
 return [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
@@ -8,6 +13,17 @@ return [
     'components' => [
         'cache' => [
             'class' => 'yii\caching\FileCache',
+        ],
+    ],
+    'container' => [
+        'singletons' => [
+            CategoryRepository::class,
+            CategoryService::class => [
+                [],
+                [
+                    Instance::of(CategoryRepository::class),
+                ],
+            ],
         ],
     ],
 ];
