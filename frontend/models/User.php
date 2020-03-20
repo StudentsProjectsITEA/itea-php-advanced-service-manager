@@ -7,6 +7,7 @@ use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\web\IdentityInterface;
 
+
 /**
  * This is the model class for table "user".
  *
@@ -76,8 +77,8 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             'password_reset_token' => 'Password Reset Token',
             'email' => 'Email',
             'status' => 'Status',
-            'created_time' => 'Created At',
-            'updated_time' => 'Updated At',
+            'created_time' => 'Created Time',
+            'updated_time' => 'Updated Time',
             'verification_token' => 'Verification Token',
             'mobile' => 'Mobile',
             'avatar_name' => 'Avatar Name',
