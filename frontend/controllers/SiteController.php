@@ -1,4 +1,5 @@
 <?php
+
 namespace frontend\controllers;
 
 use frontend\models\ResendVerificationEmailForm;
@@ -216,8 +217,8 @@ class SiteController extends Controller
      * Verify email address
      *
      * @param string $token
-     * @throws BadRequestHttpException
      * @return yii\web\Response
+     * @throws BadRequestHttpException
      */
     public function actionVerifyEmail($token)
     {
@@ -259,13 +260,46 @@ class SiteController extends Controller
     }
 
     /**
-     * Regulations static page
+     * Terms Of Use static page
      *
      * @return mixed
      */
-    public function actionRegulations()
+    public function actionTerms()
     {
-        return $this->render('regulations');
+        return $this->render('terms');
+    }
+
+    /**
+     * Categories static page
+     *
+     * @return mixed
+     */
+    public function actionCategory()
+    {
+        return $this->render('category');
+    }
+
+    /**
+     * Use panel static page
+     *
+     * @return mixed
+     */
+    public function actionAccount()
+    {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }else{
+            return $this->render('account');
+        }
+    }
+    /**
+     * Use panel static page
+     *
+     * @return mixed
+     */
+    public function actionService()
+    {
+        return $this->render('service');
     }
 }
 
