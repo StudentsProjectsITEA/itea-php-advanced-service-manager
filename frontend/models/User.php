@@ -97,7 +97,9 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param int|string $id
+     *
+     * @return User|IdentityInterface|null
      */
     public static function findIdentity($id)
     {
@@ -105,7 +107,11 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param mixed $token
+     * @param null $type
+     *
+     * @return void|IdentityInterface|null
+     * @throws NotSupportedException
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {

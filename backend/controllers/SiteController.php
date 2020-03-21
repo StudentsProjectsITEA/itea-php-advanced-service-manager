@@ -1,17 +1,39 @@
 <?php
+
+declare(strict_types=1);
+
 namespace backend\controllers;
 
 use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use common\models\LoginForm;
+use backend\models\forms\LoginForm;
+use backend\services\AdminService;
+
 
 /**
  * Site controller
  */
 class SiteController extends Controller
 {
+    /** @var AdminService $adminService */
+    private AdminService $adminService;
+
+    /**
+     * SiteController constructor.
+     *
+     * @param $id
+     * @param $module
+     * @param array $config
+     * @param AdminService $adminService
+     */
+    public function __construct($id, $module, $config = [], AdminService $adminService)
+    {
+        $this->adminService = $adminService;
+        parent::__construct($id, $module, $config);
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -19,7 +41,7 @@ class SiteController extends Controller
     {
         return [
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => AccessControl::class,
                 'rules' => [
                     [
                         'actions' => ['login', 'error'],
@@ -33,7 +55,7 @@ class SiteController extends Controller
                 ],
             ],
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'logout' => ['post'],
                 ],
@@ -75,7 +97,7 @@ class SiteController extends Controller
         }
 
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+        if ($model->load(Yii::$app->request->post()) && $this->adminService->login($model)) {
             return $this->goBack();
         } else {
             $model->password = '';
@@ -98,3 +120,4 @@ class SiteController extends Controller
         return $this->goHome();
     }
 }
+

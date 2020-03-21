@@ -38,16 +38,16 @@ class UserService
     /**
      * Logs in a user using the provided username and password.
      *
-     * @param LoginForm $loginForm
+     * @param LoginForm $form
      *
      * @return bool whether the user is logged in successfully
      */
-    public function login(LoginForm $loginForm)
+    public function login(LoginForm $form)
     {
-        if ($loginForm->validate()) {
+        if ($form->validate()) {
             return Yii::$app->user->login(
-                $this->getUser($loginForm->username),
-                $loginForm->rememberMe ? 3600 * 24 * 30 : 0
+                $this->getUser($form->username),
+                $form->rememberMe ? 3600 * 24 * 30 : 0
             );
         }
 

@@ -39,7 +39,6 @@ class SiteController extends Controller
     public function __construct($id, $module, $config = [], UserService $userService)
     {
         $this->userService = $userService;
-
         parent::__construct($id, $module, $config);
     }
 
