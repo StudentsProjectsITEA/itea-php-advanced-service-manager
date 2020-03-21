@@ -3,6 +3,7 @@ namespace frontend\tests\unit\models;
 
 use common\fixtures\UserFixture;
 use frontend\models\SignupForm;
+use frontend\services\UserService;
 
 class SignupFormTest extends \Codeception\Test\Unit
 {
@@ -30,10 +31,12 @@ class SignupFormTest extends \Codeception\Test\Unit
             'password' => 'some_password',
         ]);
 
-        $user = $model->signup();
+        /** @var UserService $userService */
+        $userService = \Yii::$container->get(UserService::class);
+        $user = $userService->signup($model);
         expect($user)->true();
 
-        /** @var \common\models\User $user */
+        /** @var \frontend\models\User $user */
         $user = $this->tester->grabRecord('common\models\User', [
             'username' => 'some_username',
             'email' => 'some_email@example.com',
@@ -59,7 +62,10 @@ class SignupFormTest extends \Codeception\Test\Unit
             'password' => 'some_password',
         ]);
 
-        expect_not($model->signup());
+        /** @var UserService $userService */
+        $userService = \Yii::$container->get(UserService::class);
+
+        expect_not($userService->signup($model));
         expect_that($model->getErrors('username'));
         expect_that($model->getErrors('email'));
 
@@ -69,3 +75,4 @@ class SignupFormTest extends \Codeception\Test\Unit
             ->equals('This email address has already been taken.');
     }
 }
+
