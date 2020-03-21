@@ -1,27 +1,38 @@
 <?php
 
+declare(strict_types=1);
+
 namespace backend\controllers;
 
 use backend\models\forms\CreateCategoryForm;
 use Yii;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\db\StaleObjectException;
 use yii\data\ActiveDataProvider;
 use yii\web\NotFoundHttpException;
-
 use common\models\Category;
 use common\components\CategoryService;
 use common\exceptions\NotFoundPageException;
+
 
 /**
  * CategoryController implements the CRUD actions for Category model.
  */
 class CategoryController extends Controller
 {
+    /** @var CategoryService $categoryService */
+    private CategoryService $categoryService;
 
-    private $categoryService;
-
+    /**
+     * CategoryController constructor.
+     *
+     * @param $id
+     * @param $module
+     * @param CategoryService $categoryService
+     * @param array $config
+     */
     public function __construct($id, $module, CategoryService $categoryService, $config = [])
     {
         $this->categoryService = $categoryService;
@@ -35,10 +46,30 @@ class CategoryController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'actions' => ['login', 'error'],
+                        'allow' => true,
+                    ],
+                    [
+                        'actions' => ['logout', 'index'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                    [
+                        'actions' => ['view', 'create', 'update', 'delete'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class'   => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
+                    'logout' => ['POST'],
                 ],
             ],
         ];
