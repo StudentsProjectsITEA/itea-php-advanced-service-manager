@@ -23,7 +23,8 @@ class LoginForm extends Model
     public $password;
 
     /** @var bool $rememberMe */
-    public bool $rememberMe = true;
+//    deleted bool
+    public $rememberMe = true;
 
     /**
      * {@inheritdoc}

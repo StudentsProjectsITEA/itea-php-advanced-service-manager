@@ -8,9 +8,16 @@ use common\models\Category;
 use Ramsey\Uuid\Uuid;
 use yii\db\ActiveQuery;
 
+/**
+ * Class CategoryService
+ * @package common\components
+ */
 class CategoryService
 {
-    private $categoryRepository;
+    /**
+     * @var CategoryRepository
+     */
+    private CategoryRepository $categoryRepository;
 
     private $id;
 

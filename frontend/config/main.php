@@ -11,7 +11,12 @@ return [
     'id' => 'app-frontend',
     'language' => 'uk',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log', 'gii'],
+    'modules' => [
+        'gii' => [
+            'class' => 'yii\gii\Module',
+        ],
+    ],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
         'request' => [
@@ -58,4 +63,3 @@ return [
     ],
     'params' => $params,
 ];
-

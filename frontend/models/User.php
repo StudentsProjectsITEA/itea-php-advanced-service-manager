@@ -6,7 +6,7 @@ use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\web\IdentityInterface;
-
+use common\models\Service;
 
 /**
  * This is the model class for table "user".

@@ -10,7 +10,6 @@ use frontend\services\UserService;
 use Yii;
 use yii\base\InvalidArgumentException;
 use yii\web\BadRequestHttpException;
-use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use frontend\models\LoginForm;
@@ -23,7 +22,7 @@ use frontend\models\ContactForm;
 /**
  * Site controller
  */
-class SiteController extends Controller
+class SiteController extends AppControllers
 {
     /** @var UserService $userService */
     private UserService $userService;
@@ -318,9 +317,17 @@ class SiteController extends Controller
      *
      * @return mixed
      */
-    public function actionRegulations()
+    public function actionTerms()
     {
-        return $this->render('regulations');
+        return $this->render('terms');
+    }
+
+    public function actionAccount()
+    {
+        if (!Yii::$app->user->id) {
+            return $this->goHome();
+        }else{
+            return $this->render('account');
+        }
     }
 }
-

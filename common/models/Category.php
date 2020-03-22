@@ -82,6 +82,9 @@ class Category extends ActiveRecord
         return $this->hasMany(Service::className(), ['category_id' => 'id']);
     }
 
+    /**
+     * @return array|string[]
+     */
     public static function primaryKey()
     {
         return ['id'];
