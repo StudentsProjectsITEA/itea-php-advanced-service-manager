@@ -20,8 +20,7 @@ use Yii;
 class UserService
 {
     /** @var UserRepository $userRepository */
-//    private UserRepository $userRepository;
-    private $userRepository;
+    private UserRepository $userRepository;
 
     /** @var User|null $user */
     private $user;

@@ -25,7 +25,7 @@ use frontend\models\ContactForm;
 class SiteController extends AppControllers
 {
     /** @var UserService $userService */
-    private $userService;
+    private UserService $userService;
 
     /**
      * SiteController constructor.
