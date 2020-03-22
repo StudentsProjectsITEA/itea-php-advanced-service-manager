@@ -51,7 +51,7 @@ class ImageService
      */
     public function getImageByServiceId(string $service_id)
     {
-        return $this->imageRepository->findServiceImage($service_id);
+        return $this->imageRepository->findServiceImages($service_id);
     }
 
     /**

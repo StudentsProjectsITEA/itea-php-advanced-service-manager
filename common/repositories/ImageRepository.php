@@ -27,7 +27,7 @@ class ImageRepository
      *
      * @return ActiveRecord[]
      */
-    public function findServiceImage(string $service_id)
+    public function findServiceImages(string $service_id)
     {
         return Image::find()->where(['service_id' => $service_id])->all();
     }

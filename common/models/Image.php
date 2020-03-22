@@ -65,7 +65,6 @@ class Image extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Name',
-            'service_id' => '',
             'created_time' => 'Created Time',
         ];
     }
