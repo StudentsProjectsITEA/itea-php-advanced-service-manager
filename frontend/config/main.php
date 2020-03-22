@@ -43,13 +43,23 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-//        'urlManager' => [
-//            'enablePrettyUrl' => true,
-//            'showScriptName' => false,
-//            'rules' => [
-//            ],
-//        ],
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'rules' => [
+            ],
+        ],
+    ],
+    'container' => [
+        'singletons' => [
+            \frontend\repositories\UserRepository::class,
+            \frontend\services\UserService::class => [
+                [],
+                [
+                    \yii\di\Instance::of(\frontend\repositories\UserRepository::class),
+                ],
+            ],
+        ],
     ],
     'params' => $params,
 ];
-

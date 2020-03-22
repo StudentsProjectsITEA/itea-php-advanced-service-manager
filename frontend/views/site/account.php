@@ -4,7 +4,7 @@
 
 use yii\helpers\Url;
 
-$this->title = 'Terms of Use';
+$this->title = 'Account';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <main>

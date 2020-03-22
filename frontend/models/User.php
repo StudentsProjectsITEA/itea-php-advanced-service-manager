@@ -6,7 +6,7 @@ use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\web\IdentityInterface;
-
+use common\models\Service;
 /**
  * This is the model class for table "user".
  *
@@ -131,18 +131,6 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function validateAuthKey($authKey)
     {
         return $this->getAuthKey() === $authKey;
-    }
-
-    /**
-     * Finds user by username
-     *
-     * @param string $username
-     *
-     * @return static|null
-     */
-    public static function findByUsername(string $username)
-    {
-        return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
     }
 
     /**

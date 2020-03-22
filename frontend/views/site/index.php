@@ -3,6 +3,7 @@
 /* @var $this yii\web\View */
 
 use yii\helpers\Html;
+use \frontend\components\CategoryMenuWidget;
 
 $this->title = 'Service App';
 ?>
@@ -10,10 +11,7 @@ $this->title = 'Service App';
     <div class="container">
         <div class="row">
             <div class="category-list d-flex">
-                <?php echo Html::a('category', ['/site/category'], ['class'=>'btn btn-primary']) ?>
-                <a href="/site/category" class="btn btn-primary">category 1</a>
-                <a href="/site/category" class="btn btn-primary">category 2</a>
-                <a href="/site/category" class="btn btn-primary">category 3</a>
+                <?php echo CategoryMenuWidget::widget(['classParams' => 'btn btn-primary']); ?>
             </div>
         </div>
     </div>

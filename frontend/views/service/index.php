@@ -4,17 +4,15 @@
 
 use yii\helpers\Html;
 
-$this->title = 'Service';
+$this->title = $service->title;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <main>
     <div class="container">
         <div class="row">
             <div class="col-sm-8">
-                <h1>Title service</h1>
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptas ut omnis et placeat maiores
-                    dolorem quae tempore minima reprehenderit vero nobis numquam officia ipsa, deleniti quod quos
-                    quaerat. Saepe, atque!</p>
+                <h1><?php echo $service->title; ?></h1>
+                <p><?php echo $service->description; ?></p>
                 <div class="gallary-imgs">
                     <img src="/public/imgs/default.jpg" class="img-thumbnail" alt="..." style="width: 10em;">
                     <img src="/public/imgs/default.jpg" class="img-thumbnail" alt="..." style="width: 10em;">
