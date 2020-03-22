@@ -7,6 +7,7 @@ use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\web\IdentityInterface;
 use common\models\Service;
+
 /**
  * This is the model class for table "user".
  *
@@ -16,8 +17,8 @@ use common\models\Service;
  * @property string|null $password_reset_token
  * @property string $email
  * @property int $status
- * @property int $created_at
- * @property int $updated_at
+ * @property int $created_time
+ * @property int $updated_time
  * @property string|null $verification_token
  * @property int $mobile
  * @property string|null $avatar_name
@@ -45,7 +46,11 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function behaviors()
     {
         return [
-            TimestampBehavior::class,
+            [
+                'class' => TimestampBehavior::class,
+                'createdAtAttribute' => 'created_time',
+                'updatedAtAttribute' => 'updated_time',
+            ],
         ];
     }
 
@@ -72,8 +77,8 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             'password_reset_token' => 'Password Reset Token',
             'email' => 'Email',
             'status' => 'Status',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'created_time' => 'Created Time',
+            'updated_time' => 'Updated Time',
             'verification_token' => 'Verification Token',
             'mobile' => 'Mobile',
             'avatar_name' => 'Avatar Name',
@@ -92,7 +97,9 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param int|string $id
+     *
+     * @return User|IdentityInterface|null
      */
     public static function findIdentity($id)
     {
@@ -100,7 +107,11 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param mixed $token
+     * @param null $type
+     *
+     * @return void|IdentityInterface|null
+     * @throws NotSupportedException
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
@@ -193,6 +204,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
      * Validates password
      *
      * @param string $password password to validate
+     *
      * @return bool if password provided is valid for current user
      */
     public function validatePassword($password)

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace frontend\controllers;
 
 use frontend\models\ResendVerificationEmailForm;
@@ -16,6 +18,7 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 
+
 /**
  * Site controller
  */
@@ -23,7 +26,6 @@ class SiteController extends AppControllers
 {
     /** @var UserService $userService */
     private $userService;
-
 
     /**
      * SiteController constructor.
@@ -36,10 +38,8 @@ class SiteController extends AppControllers
     public function __construct($id, $module, $config = [], UserService $userService)
     {
         $this->userService = $userService;
-
         parent::__construct($id, $module, $config);
     }
-
 
     /**
      * {@inheritdoc}
@@ -179,11 +179,12 @@ class SiteController extends AppControllers
      * Signs user up.
      *
      * @return mixed
+     * @throws \yii\base\Exception
      */
     public function actionSignup()
     {
         $model = new SignupForm();
-        if ($model->load(Yii::$app->request->post()) && $model->signup()) {
+        if ($model->load(Yii::$app->request->post()) && $this->userService->signup($model)) {
             Yii::$app->session->setFlash(
                 'success',
                 'Thank you for registration. Please check your inbox for verification email.'

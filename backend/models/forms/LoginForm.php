@@ -2,17 +2,18 @@
 
 declare(strict_types=1);
 
-namespace frontend\models;
+namespace backend\models\forms;
 
-use frontend\services\UserService;
-use Yii;
+use backend\services\AdminService;
+use backend\models\Admin;
 use yii\base\Model;
+use Yii;
 
 
 /**
  * Class LoginForm
  *
- * @package frontend\models
+ * @package backend\models\forms
  */
 class LoginForm extends Model
 {
@@ -23,11 +24,10 @@ class LoginForm extends Model
     public $password;
 
     /** @var bool $rememberMe */
-//    deleted bool
-    public $rememberMe = true;
+    public bool $rememberMe = true;
 
     /**
-     * {@inheritdoc}
+     * @return array
      */
     public function rules()
     {
@@ -45,8 +45,8 @@ class LoginForm extends Model
      * Validates the password.
      * This method serves as the inline validation for password.
      *
-     * @param string $attribute the attribute currently being validated
-     * @param array $params the additional name-value pairs given in the rule
+     * @param $attribute
+     * @param $params
      *
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\di\NotInstantiableException
@@ -54,13 +54,13 @@ class LoginForm extends Model
     public function validatePassword($attribute, $params)
     {
         if (!$this->hasErrors()) {
-            /** @var UserService $userService */
-            $userService = Yii::$container->get(UserService::class);
+            /** @var AdminService $adminService */
+            $adminService = Yii::$container->get(AdminService::class);
 
-            /** @var User|null $user */
-            $user = $userService->getUser($this->username);
+            /** @var Admin|null $admin */
+            $admin = $adminService->getAdmin($this->username);
 
-            if (!$user || !$user->validatePassword($this->password)) {
+            if (!$admin || !$admin->validatePassword($this->password)) {
                 $this->addError($attribute, 'Incorrect username or password.');
             }
         }

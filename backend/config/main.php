@@ -21,7 +21,7 @@ return [
             'csrfParam' => '_csrf-backend',
         ],
         'user' => [
-            'identityClass' => 'frontend\models\User', // TODO: change after creating AdminService!
+            'identityClass' => 'backend\models\Admin',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
         ],
@@ -48,5 +48,17 @@ return [
             ],
         ],
     ],
+    'container' => [
+        'singletons' => [
+            \backend\repositories\AdminRepository::class,
+            \backend\services\AdminService::class => [
+                [],
+                [
+                    \yii\di\Instance::of(\backend\repositories\AdminRepository::class),
+                ],
+            ],
+        ],
+    ],
     'params' => $params,
 ];
+

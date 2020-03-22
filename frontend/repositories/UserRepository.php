@@ -25,5 +25,15 @@ class UserRepository
     {
         return User::findOne(['username' => $username, 'status' => User::STATUS_ACTIVE]);
     }
+
+    /**
+     * @param User $user
+     *
+     * @return bool
+     */
+    public function createUser(User $user): bool
+    {
+        return $user->save();
+    }
 }
 
