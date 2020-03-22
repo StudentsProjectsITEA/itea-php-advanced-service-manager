@@ -16,27 +16,27 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="row">
             <div class="col-6 offset-md-3">
                 <div class="site-signup">
-                    <h1><?= Html::encode($this->title) ?></h1>
+                    <h1><?php echo Html::encode($this->title) ?></h1>
 
                     <p>Please fill out the following fields to signup:</p>
 
                     <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
 
-                    <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
+                    <?php echo $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
 
-                    <?= $form->field($model, 'email') ?>
+                    <?php echo $form->field($model, 'email') ?>
 
-                    <?= $form->field($model, 'mobile')->widget(\yii\widgets\MaskedInput::class,
+                    <?php echo $form->field($model, 'mobile')->widget(\yii\widgets\MaskedInput::class,
                         ['mask' => '(999) 999-99-99',
                             'clientOptions' => [
                                 'removeMaskOnSubmit' => true,
                             ]
                         ]); ?>
 
-                    <?= $form->field($model, 'password')->passwordInput() ?>
+                    <?php echo $form->field($model, 'password')->passwordInput() ?>
 
                     <div class="form-group">
-                        <?= Html::submitButton('Signup', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
+                        <?php echo Html::submitButton('Signup', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
                     </div>
 
                     <?php ActiveForm::end(); ?>

@@ -4,8 +4,7 @@
 
 use yii\helpers\Html;
 
-$this->title = $service->title;
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] =  $service->title;
 ?>
 <main>
     <div class="container">

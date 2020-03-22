@@ -5,9 +5,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use \frontend\components\CategoryMenuWidget;
 
-
-$this->title = $category->title;
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = $category->title;
 ?>
 <main>
     <div class="container">
