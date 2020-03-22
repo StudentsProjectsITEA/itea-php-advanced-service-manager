@@ -2,6 +2,8 @@
 
 use common\components\CategoryService;
 use common\repositories\CategoryRepository;
+use common\services\ImageService;
+use common\repositories\ImageRepository;
 use yii\di\Instance;
 
 return [
@@ -22,6 +24,13 @@ return [
                 [],
                 [
                     Instance::of(CategoryRepository::class),
+                ],
+            ],
+            ImageRepository::class,
+            ImageService::class => [
+                [],
+                [
+                    Instance::of(ImageRepository::class),
                 ],
             ],
         ],
