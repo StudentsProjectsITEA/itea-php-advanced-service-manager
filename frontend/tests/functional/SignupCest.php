@@ -3,6 +3,7 @@
 namespace frontend\tests\functional;
 
 use frontend\tests\FunctionalTester;
+use frontend\models\User;
 
 class SignupCest
 {
@@ -50,7 +51,7 @@ class SignupCest
         $I->seeRecord('common\models\User', [
             'username' => 'tester',
             'email' => 'tester.email@example.com',
-            'status' => \common\models\User::STATUS_INACTIVE
+            'status' => User::STATUS_INACTIVE
         ]);
 
         $I->seeEmailIsSent();

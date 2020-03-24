@@ -3,8 +3,9 @@
 namespace common\tests\unit\models;
 
 use Yii;
-use common\models\LoginForm;
-use common\fixtures\UserFixture;
+use frontend\models\LoginForm;
+use frontend\fixtures\UserFixture;
+use frontend\services\UserService;
 
 /**
  * Login form test
@@ -12,7 +13,7 @@ use common\fixtures\UserFixture;
 class LoginFormTest extends \Codeception\Test\Unit
 {
     /**
-     * @var \common\tests\UnitTester
+     * @var \frontend\tests\UnitTester
      */
     protected $tester;
 
@@ -37,7 +38,10 @@ class LoginFormTest extends \Codeception\Test\Unit
             'password' => 'not_existing_password',
         ]);
 
-        expect('model should not login user', $model->login())->false();
+        /** @var UserService $userService */
+        $userService = Yii::$container->get(UserService::class);
+
+        expect('model should not login user', $userService->login($model))->false();
         expect('user should not be logged in', Yii::$app->user->isGuest)->true();
     }
 
@@ -48,7 +52,10 @@ class LoginFormTest extends \Codeception\Test\Unit
             'password' => 'wrong_password',
         ]);
 
-        expect('model should not login user', $model->login())->false();
+        /** @var UserService $userService */
+        $userService = Yii::$container->get(UserService::class);
+
+        expect('model should not login user', $userService->login($model))->false();
         expect('error message should be set', $model->errors)->hasKey('password');
         expect('user should not be logged in', Yii::$app->user->isGuest)->true();
     }
@@ -60,7 +67,10 @@ class LoginFormTest extends \Codeception\Test\Unit
             'password' => 'password_0',
         ]);
 
-        expect('model should login user', $model->login())->true();
+        /** @var UserService $userService */
+        $userService = Yii::$container->get(UserService::class);
+
+        expect('model should login user', $userService->login($model))->true();
         expect('error message should not be set', $model->errors)->hasntKey('password');
         expect('user should be logged in', Yii::$app->user->isGuest)->false();
     }
