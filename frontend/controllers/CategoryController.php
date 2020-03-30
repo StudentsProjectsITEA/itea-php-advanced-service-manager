@@ -47,7 +47,7 @@ class CategoryController extends AppControllers
      */
     public function actionView($id)
     {
-        $pages = new Pagination(['totalCount' => $this->serviceRepository->countServicesByCategoryId($id), 'pageSize' => 2]);
+        $pages = new Pagination(['totalCount' => $this->serviceRepository->countServicesByCategoryId($id), 'pageSize' => 8]);
         $services = $this->serviceRepository->getServicesForPaginationByCatId($id, $pages->offset, $pages->limit);
         $category = $this->categoryService->getCategoryById($id);
         return $this->render('view', [

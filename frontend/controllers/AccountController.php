@@ -76,7 +76,7 @@ class AccountController extends AppControllers
 
             $user = $this->userService->getUserById($id);
 
-            $pages = new Pagination(['totalCount' => $this->userService->getUserServicesCount($id),'pageSize' => 2]);
+            $pages = new Pagination(['totalCount' => $this->userService->getUserServicesCount($id),'pageSize' => 8]);
             $usersServices = $this->userService->getPagination($id, $pages->offset, $pages->limit);
 
             $categories = $this->serviceService->getCategoriesList();

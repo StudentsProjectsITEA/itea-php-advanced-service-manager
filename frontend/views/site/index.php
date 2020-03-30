@@ -26,16 +26,31 @@ $this->title = 'Service App';
                 <?php foreach ($allServices as $service) { ?>
                     <div class="col mb-4">
                         <div class="card">
-                            <?php echo Html::img('/public/imgs/default.jpg', ['alt' => $service->title]); ?>
+                            <?php echo Html::img(
+                                $service->main_image_name ? $service->main_image_name : '/public/imgs/default.jpg',
+                                ['alt' => $service->title]
+                            ); ?>
                             <div class="card-body">
-                                <h5 class="card-title"><?php echo Html::a($service->title, [Url::to(['/service/view', 'id' => $service->id])]); ?></h5>
+                                <h5 class="card-title"><?php echo Html::a(
+                                        $service->title,
+                                        [
+                                            Url::to(
+                                                [
+                                                    '/service/view',
+                                                    'id' => $service->id
+                                                ]
+                                            )
+                                        ]
+                                    ); ?></h5>
                                 <p class="card-text">
                                     <span class="label label-<?php echo $service->status_id === 9 ? 'danger' : 'success'; ?>">
                                         <?php echo ServiceStatusId::STATUS_IDS_MAP[$service->status_id]; ?>
                                     </span>
                                 </p>
                                 <div class="card-price">Price:
-                                    <span><strong><?php echo $service->price ? Yii::$app->formatter->asCurrency($service->price) : 'free'; ?></strong></span>
+                                    <span><strong><?php echo $service->price ? Yii::$app->formatter->asCurrency(
+                                                $service->price
+                                            ) : 'free'; ?></strong></span>
                                 </div>
                             </div>
                         </div>
@@ -45,9 +60,11 @@ $this->title = 'Service App';
                 <p>There is no any service in this category!</p>
             <?php } ?>
         </div>
-        <?php echo LinkPager::widget([
-            'pagination' => $pages,
-        ]);
+        <?php echo LinkPager::widget(
+            [
+                'pagination' => $pages,
+            ]
+        );
         Pjax::end();
         ?>
     </div>
