@@ -107,7 +107,7 @@ class SiteController extends AppControllers
      */
     public function actionIndex()
     {
-        $pages = new Pagination(['totalCount' => $this->serviceService->countActiveServices(), 'pageSize' => 2]);
+        $pages = new Pagination(['totalCount' => $this->serviceService->countActiveServices(), 'pageSize' => 8]);
         $allServices = $this->serviceService->getActiveServicesForPagination($pages->offset, $pages->limit);
 
         return $this->render('index', [

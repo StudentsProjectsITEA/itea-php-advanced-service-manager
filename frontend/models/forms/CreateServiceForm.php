@@ -24,7 +24,7 @@ class CreateServiceForm extends Model
             [['description'], 'string'],
             [['title'], 'required'],
             [['title'], 'string', 'max' => 50],
-            [['price'], 'integer', 'max' => 10],
+            [['price'], 'integer', 'max' => 1000000],
             [['imageFile'], 'file', 'extensions' => 'jpg', 'skipOnEmpty' => true, 'maxSize' => 2000000, 'tooBig' => 'Image size limit is 2 mb'],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::class, 'targetAttribute' => ['category_id' => 'id']],
         ];
