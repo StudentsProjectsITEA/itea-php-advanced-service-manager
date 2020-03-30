@@ -79,7 +79,9 @@ class Service extends ActiveRecord
             [['status_id', 'price', 'created_time', 'updated_time'], 'integer'],
             [['main_image_name', 'title'], 'string', 'max' => 255],
             [['id'], 'unique'],
-            [['imageFile'], 'file', 'extensions' => 'jpg'],
+            [['title'], 'string', 'max' => 50],
+            [['price'], 'integer', 'max' => 10],
+            [['imageFile'], 'file', 'extensions' => 'jpg',  'skipOnEmpty' => true, 'maxSize' => 2000000, 'tooBig' => 'Image size limit is 2 mb'],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::class, 'targetAttribute' => ['category_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
         ];

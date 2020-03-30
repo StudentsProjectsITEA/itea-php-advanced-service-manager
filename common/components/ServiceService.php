@@ -83,6 +83,7 @@ class ServiceService
      * @return bool
      *
      * @throws \yii\base\InvalidConfigException
+     * @throws \Exception
      */
     public function updateService(Service $service)
     {
@@ -96,6 +97,9 @@ class ServiceService
             $fileForm->imageFile = $imageData;
             // create image
             $createdImageStatus = $this->imageService->createImage($fileForm, $service->id);
+            if (!$createdImageStatus) {
+                return false;
+            }
             // get new created image
             $createdImage = $this->imageService->getImageByServiceId($service->id);
             // get new image url
@@ -104,7 +108,6 @@ class ServiceService
             $service->main_image_name = $imageUrl;
         }
 
-        $this->serviceRepository->save($service);
         if ($this->serviceRepository->save($service) && $createdImageStatus) {
             return true;
         }
@@ -190,6 +193,9 @@ class ServiceService
             $image = new CreateImageForm();
             $image->imageFile = $imageData;
             $imageSaveStatus = $this->imageService->createImage($image, $createService->id);
+            if (!$imageSaveStatus) {
+                return false;
+            }
             $createdImage = $this->imageService->getImageByServiceId($createService->id);
             $imageUrl = $this->imageService->getImageUrl($createdImage);
             $service->main_image_name = $imageUrl;
