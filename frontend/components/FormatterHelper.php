@@ -18,6 +18,6 @@ class FormatterHelper extends Formatter
      */
     public function asPhone($value)
     {
-        return preg_replace("/^(\d{3})(\d{2})(\d{2})(\d{2})$/", "($1)-$2-$3-$4", $value);
+        return preg_replace("/^(\d{2})(\d{3})(\d{3})(\d{2})(\d{2})$/", "+$1($2)$3-$4-$5", $value);
     }
 }

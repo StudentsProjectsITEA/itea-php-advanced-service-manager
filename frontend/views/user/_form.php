@@ -17,9 +17,14 @@ use yii\widgets\ActiveForm;
     <?php echo $form->field($model, 'mobile')->widget(
         \yii\widgets\MaskedInput::class,
         [
-            'mask' => '(999) 999-99-99',
+            'mask' => '+NN(9NN)999-99-99',
             'clientOptions' => [
                 'removeMaskOnSubmit' => true,
+            ],
+            'definitions' => [
+                'N' => [
+                    'validator' =>  '^[1-9]+',
+                ]
             ]
         ]
     ); ?>
