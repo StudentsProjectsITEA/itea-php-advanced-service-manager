@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace frontend\services;
 
-use common\services\AvatarService;
 use frontend\models\forms\UserForm;
 use frontend\models\SignupForm;
 use frontend\models\User;
@@ -26,9 +25,6 @@ class UserService
     /** @var UserRepository $userRepository */
     private UserRepository $userRepository;
 
-    /** @var AvatarService $avatarService */
-    private AvatarService $avatarService;
-
     /** @var User|null $user */
     private $user;
 
@@ -36,12 +32,10 @@ class UserService
      * UserService constructor.
      *
      * @param UserRepository $userRepository
-     * @param AvatarService $avatarService
      */
-    public function __construct(UserRepository $userRepository, AvatarService $avatarService)
+    public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
-        $this->avatarService = $avatarService;
     }
 
     /**

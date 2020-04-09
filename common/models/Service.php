@@ -8,7 +8,6 @@ use Yii;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use frontend\models\User;
-use common\models\Image;
 use yii\behaviors\TimestampBehavior;
 
 /**
@@ -25,8 +24,6 @@ use yii\behaviors\TimestampBehavior;
  * @property int $created_time
  * @property int $updated_time
  * @property int $serviceStatuses
- *
- * @property Image[] $images
  * @property Category $category
  * @property User $user
  * @property mixed $imageFile
@@ -35,14 +32,14 @@ class Service extends ActiveRecord
 {
 
     /**
-     * @var mixed
-     */
-    public $imageFile;
-
-    /**
      * @var array
      */
     public array $serviceStatuses;
+
+    /**
+     * @var mixed
+     */
+    public $imageFile;
 
     /**
      * {@inheritdoc}
@@ -80,8 +77,7 @@ class Service extends ActiveRecord
             [['main_image_name', 'title'], 'string', 'max' => 255],
             [['id'], 'unique'],
             [['title'], 'string', 'max' => 50],
-            [['price'], 'integer', 'max' => 10],
-            [['imageFile'], 'file', 'extensions' => 'jpg',  'skipOnEmpty' => true, 'maxSize' => 2000000, 'tooBig' => 'Image size limit is 2 mb'],
+            [['price'], 'integer', 'max' => 1000000000],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::class, 'targetAttribute' => ['category_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
         ];
@@ -103,16 +99,6 @@ class Service extends ActiveRecord
             'category.title' => 'Category',
             'user.username' => 'User',
         ];
-    }
-
-    /**
-     * Gets query for [[Images]].
-     *
-     * @return ActiveQuery
-     */
-    public function getImages()
-    {
-        return $this->hasMany(Image::class, ['service_id' => 'id']);
     }
 
     /**
@@ -141,5 +127,10 @@ class Service extends ActiveRecord
     public static function primaryKey()
     {
         return ['id'];
+    }
+
+    public function getImagePath()
+    {
+        return $this->main_image_name ? '/uploads/services/' . $this->main_image_name : false;
     }
 }

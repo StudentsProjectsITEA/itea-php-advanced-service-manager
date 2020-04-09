@@ -27,7 +27,7 @@ $this->title = 'Service App';
                     <div class="col mb-4">
                         <div class="card">
                             <?php echo Html::img(
-                                $service->main_image_name ? $service->main_image_name : '/public/imgs/default.jpg',
+                                $service->main_image_name ? $service->getImagePath() : '/public/imgs/default.jpg',
                                 ['alt' => $service->title]
                             ); ?>
                             <div class="card-body">
