@@ -1,16 +1,17 @@
 <?php
 
 /* @var $this yii\web\View */
+
 /* @var $serviceModel ServiceController */
 /* @var $categories ServiceController */
-/* @var $user UserController */
+/* @var $user \frontend\models\User */
+
+/* @var $userForm \frontend\models\forms\UserForm */
 
 use common\models\ServiceStatusId;
 use frontend\controllers\ServiceController;
-use frontend\controllers\UserController;
 use yii\helpers\Url;
 use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
 use yii\widgets\LinkPager;
 use yii\widgets\Pjax;
 
@@ -40,10 +41,13 @@ $currentUser = Html::encode(Yii::$app->user->identity->username);
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-8 offset-md-2">
-                                            <?php echo $this->render('/service/_form', [
-                                                'model' => $serviceModel,
-                                                'categories' => $categories,
-                                            ]) ?>
+                                            <?php echo $this->render(
+                                                '/service/_form',
+                                                [
+                                                    'model' => $serviceModel,
+                                                    'categories' => $categories,
+                                                ]
+                                            ) ?>
                                         </div>
                                     </div>
                                 </div>
@@ -56,16 +60,31 @@ $currentUser = Html::encode(Yii::$app->user->identity->username);
                                             <?php foreach ($usersServices as $service) { ?>
                                                 <div class="col-md-3">
                                                     <div class="card">
-                                                        <?php echo Html::img('/public/imgs/default.jpg', ['alt' => $service->title . ' service']); ?>
+                                                        <?php echo Html::img(
+                                                            '/public/imgs/default.jpg',
+                                                            ['alt' => $service->title . ' service']
+                                                        ); ?>
                                                         <div class="card-body">
-                                                            <h5 class="card-title"><?php echo Html::a($service->title, [Url::to(['/service/view', 'id' => $service->id])]); ?></h5>
+                                                            <h5 class="card-title"><?php echo Html::a(
+                                                                    $service->title,
+                                                                    [
+                                                                        Url::to(
+                                                                            [
+                                                                                '/service/view',
+                                                                                'id' => $service->id
+                                                                            ]
+                                                                        )
+                                                                    ]
+                                                                ); ?></h5>
                                                             <p class="card-text">
                                                                 <span class="label label-<?php echo $service->status_id === 9 ? 'danger' : 'success'; ?>">
                                                                     <?php echo ServiceStatusId::STATUS_IDS_MAP[$service->status_id]; ?>
                                                                 </span>
                                                             </p>
                                                             <div class="card-price">Price:
-                                                                <span><?php echo $service->price ? Yii::$app->formatter->asCurrency($service->price) : 'free'; ?></span>
+                                                                <span><?php echo $service->price ? Yii::$app->formatter->asCurrency(
+                                                                        $service->price
+                                                                    ) : 'free'; ?></span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -77,9 +96,11 @@ $currentUser = Html::encode(Yii::$app->user->identity->username);
                                         <?php } ?>
                                     </div>
                                     <?php
-                                    echo LinkPager::widget([
-                                        'pagination' => $pages,
-                                    ]);
+                                    echo LinkPager::widget(
+                                        [
+                                            'pagination' => $pages,
+                                        ]
+                                    );
                                     Pjax::end();
                                     ?>
                                 </div>
@@ -88,9 +109,13 @@ $currentUser = Html::encode(Yii::$app->user->identity->username);
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-8 offset-md-2">
-                                            <?php echo $this->render('/user/update', [
-                                                'model' => $user,
-                                            ]) ?>
+                                            <?php echo $this->render(
+                                                '/user/update',
+                                                [
+                                                    'model' => $user,
+                                                    'modelForm' => $userForm,
+                                                ]
+                                            ) ?>
                                         </div>
                                     </div>
                                 </div>
