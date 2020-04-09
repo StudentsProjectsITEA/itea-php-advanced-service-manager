@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace frontend\controllers;
 
-use backend\models\forms\CreateImageForm;
 use common\components\ServiceService;
 use common\services\ImageService;
 use frontend\models\forms\CreateServiceForm;
@@ -12,8 +11,9 @@ use frontend\models\forms\UserForm;
 use frontend\services\UserService;
 use Yii;
 use yii\helpers\Url;
-use yii\web\UploadedFile;
 use yii\data\Pagination;
+
+
 /**
  * Class AccountController
  * @package frontend\controllers
@@ -24,11 +24,16 @@ class AccountController extends AppControllers
      * @var UserService
      */
     private UserService $userService;
+
     /**
      * @var ServiceService
      */
     private ServiceService $serviceService;
-    private $imageService;
+
+    /**
+     * @var ImageService
+     */
+    private ImageService $imageService;
 
     /**
      * AccountController constructor.
@@ -69,12 +74,12 @@ class AccountController extends AppControllers
                 return Yii::$app->response->redirect(Url::to(['service/view', 'id' => $serviceModel->id]));
             }
 
-            $userForm = new UserForm();
-            if ($userForm->load(Yii::$app->request->post()) && $this->userService->updateUserAvatar($userForm)) {
+            $user = $this->userService->getUserById($id);
+            $userForm = new UserForm($user);
+            if ($userForm->load(Yii::$app->request->post()) && $this->userService->updateUser($user, $userForm)){
+                Yii::$app->session->setFlash('success', 'Updated');
                 return $this->redirect(Url::to(['account/index', 'id' => $id]));
             }
-
-            $user = $this->userService->getUserById($id);
 
             $pages = new Pagination(['totalCount' => $this->userService->getUserServicesCount($id),'pageSize' => 8]);
             $usersServices = $this->userService->getPagination($id, $pages->offset, $pages->limit);
@@ -86,8 +91,9 @@ class AccountController extends AppControllers
                 'categories' => $categories,
                 'pages' => $pages,
                 'user' => $user,
+                'userForm' => $userForm,
             ]);
         }
-
     }
 }
+

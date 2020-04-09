@@ -277,4 +277,26 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     {
         $this->password_reset_token = null;
     }
+
+    /**
+     * @return string
+     */
+    public function getImagePath(): string
+    {
+        if ($this->avatar_name) {
+            return $this->getImage($this->avatar_name);
+        }
+
+        return 'https://via.placeholder.com/300x200'; // Default image
+    }
+
+    /**
+     * @param string $filename
+     *
+     * @return string
+     */
+    private function getImage(string $filename): string
+    {
+        return '/uploads/avatars/' . $filename;
+    }
 }

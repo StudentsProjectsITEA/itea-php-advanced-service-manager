@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace frontend\services;
 
-use backend\models\forms\CreateAvatarForm;
 use common\services\AvatarService;
 use frontend\models\forms\UserForm;
 use frontend\models\SignupForm;
@@ -25,8 +24,10 @@ use yii\web\UploadedFile;
 class UserService
 {
     /** @var UserRepository $userRepository */
+    private UserRepository $userRepository;
 
-    private $userRepository;
+    /** @var AvatarService $avatarService */
+    private AvatarService $avatarService;
 
     /** @var User|null $user */
     private $user;
@@ -93,16 +94,17 @@ class UserService
      *
      * @return array|\yii\db\ActiveRecord[]
      */
-    public function getUserServices(string $id) : array
+    public function getUserServices(string $id): array
     {
         return $this->userRepository->findUserServices($id);
     }
 
     /**
      * @param string $id
+     *
      * @return string
      */
-    public function getUserServicesCount(string $id) : int
+    public function getUserServicesCount(string $id): int
     {
         return $this->userRepository->findAndCountUserServices($id);
     }
@@ -111,9 +113,10 @@ class UserService
      * @param string $id
      * @param $pageOffset
      * @param $pageLimit
+     *
      * @return array
      */
-    public function getPagination(string $id, $pageOffset, $pageLimit) : array
+    public function getPagination(string $id, $pageOffset, $pageLimit): array
     {
         return $this->userRepository->getServicesForPaginationByUserId($id, $pageOffset, $pageLimit);
     }
@@ -127,47 +130,21 @@ class UserService
     }
 
     /**
-     * @param UserForm $userForm
+     * Update some user data (mobile, avatar)
+     *
+     * @param User $model
+     * @param UserForm $modelForm
      *
      * @return bool
-     *
-     * @throws StaleObjectException
-     * @throws \Throwable
      */
-    public function updateUserAvatar(UserForm $userForm)
+    public function updateUser(User $model, UserForm $modelForm): bool
     {
-        if (!$userForm->validate()) {
-            return false;
+        if ($image = UploadedFile::getInstance($modelForm, 'eventImage')) {
+            $model->avatar_name = $modelForm->uploadImage($image);
         }
+        $model->mobile = $modelForm->mobile;
 
-        $user = $this->getUserById($this->user->id);
-
-        $fileForm = new CreateAvatarForm();
-        $imageData = UploadedFile::getInstance($userForm, 'avatar_name');
-
-        if (!empty($imageData)) {
-            $this->avatarService->deleteAvatarByUserId($this->user->id);
-
-            $fileForm->imageFile = $imageData;
-
-            $createdAvatarStatus = $this->avatarService->createAvatar($fileForm);
-
-            $createdAvatar = $this->avatarService->getAvatarByUserId($this->user->id);
-
-            $avatarUrl = $this->avatarService->getAvatarUrl($createdAvatar);
-
-            $user->avatar_name = $avatarUrl;
-            $user->mobile = $userForm->mobile;
-        }
-
-        if ($this->userRepository->saveUser($user) && $createdAvatarStatus) {
-            return true;
-        }
-
-        $user->addErrors($user->getErrors());
-        \Yii::error('', __METHOD__);
-
-        return false;
+        return $this->userRepository->saveUser($model);
     }
 
     /**
@@ -216,7 +193,7 @@ class UserService
     public function delete(User $user): bool
     {
         $id = $user->getId();
-        if ($this->userRepository->findService($id) || $this->userRepository->findAvatar($id)){
+        if ($this->userRepository->findService($id) || $this->userRepository->findAvatar($id)) {
             return false;
         }
 
@@ -245,3 +222,4 @@ class UserService
             ->send();
     }
 }
+

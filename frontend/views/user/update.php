@@ -3,7 +3,8 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model frontend\models\forms\UserForm */
+/* @var $model \frontend\models\User */
+/* @var $modelForm frontend\models\forms\UserForm */
 
 ?>
 <div class="user-update">
@@ -12,6 +13,7 @@ use yii\helpers\Html;
 
     <?= $this->render('_form', [
         'model' => $model,
+        'modelForm' => $modelForm,
     ]) ?>
 
 </div>
