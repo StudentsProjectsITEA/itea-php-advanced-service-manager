@@ -61,8 +61,8 @@ $currentUser = Html::encode(Yii::$app->user->identity->username);
                                                 <div class="col-md-3">
                                                     <div class="card">
                                                         <?php echo Html::img(
-                                                            '/public/imgs/default.jpg',
-                                                            ['alt' => $service->title . ' service']
+                                                            $service->main_image_name ? $service->getImagePath() : '/public/imgs/default.jpg',
+                                                            ['alt' => $service->title]
                                                         ); ?>
                                                         <div class="card-body">
                                                             <h5 class="card-title"><?php echo Html::a(

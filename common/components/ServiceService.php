@@ -79,7 +79,10 @@ class ServiceService
      */
     public function updateService(Service $service)
     {
-        $service->status_id = 9;
+        if ($service->user_id === Yii::$app->user->id) {
+            $service->status_id = 9;
+        }
+
         $image = UploadedFile::getInstance($service, 'imageFile');
         if (!empty($image)) {
             $service->main_image_name = $this->saveImage($image);

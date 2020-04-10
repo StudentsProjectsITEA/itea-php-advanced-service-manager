@@ -17,8 +17,8 @@ $this->params['breadcrumbs'][] = 'Update';
         <div class="col-sm-12 service-update">
             <h1><?php echo Html::encode($this->title) ?></h1>
             <?php if ($model->main_image_name) { ?>
-            <img src="<?php echo $model->getImagePath(); ?>" alt="<?php echo Html::encode($this->title) ?>" style="width '200px' height='200px'">
-                <?php } ?>
+                <img src="<?php echo $model->getImagePath(); ?>" alt="<?php echo Html::encode($this->title) ?>" style="max-width: 200px;">
+            <?php } ?>
             <?php echo $this->render('_form', [
                 'model' => $model,
                 'categories' => $categories
