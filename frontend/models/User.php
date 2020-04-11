@@ -8,7 +8,6 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
 use yii\web\IdentityInterface;
 use common\models\Service;
-use common\models\Avatar;
 
 /**
  * This is the model class for table "user".
@@ -88,15 +87,6 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         ];
     }
 
-    /**
-     * Gets query for [[Avatars]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getAvatars()
-    {
-        return $this->hasMany(Avatar::class, ['user_id' => 'id']);
-    }
 
     /**
      * Gets query for [[Services]].
@@ -106,16 +96,6 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function getServices()
     {
         return $this->hasMany(Service::class, ['user_id' => 'id']);
-    }
-
-    /**
-     * Gets query for [[Avatar]].
-     *
-     * @return ActiveQuery
-     */
-    public function getAvatar()
-    {
-        return $this->hasOne(Avatar::class, ['user_id' => 'id']);
     }
 
     /**

@@ -15,8 +15,8 @@ $this->params['breadcrumbs'][] = Html::encode($currentService->title);
                 <div class="content-pages">
                     <div class="well well-sm">Price: <?php echo $currentService->price; ?></div>
                     <div class="well well-sm">Category: <?php echo $currentService->category->title; ?></div>
-                    <?php if (!empty($currentService->main_image_name)) { ?>
-                        <img src="<?php echo $currentService->main_image_name; ?>" class="img-thumbnail" alt="..." style="width: 20em; float: left; margin: 5px 10px 0 0">
+                    <?php if ($currentService->main_image_name) { ?>
+                        <img src="<?php echo $currentService->getImagePath(); ?>" class="img-thumbnail" alt="..." style="width: 20em; float: left; margin: 5px 10px 0 0">
                     <?php } ?>
                     <?php echo HtmlPurifier::process($currentService->description); ?>
                 </div>

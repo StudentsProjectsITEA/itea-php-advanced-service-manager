@@ -29,23 +29,17 @@ class ServiceService
      * @var CategoryService
      */
     private CategoryService $categoryService;
-    /**
-     * @var ImageService
-     */
-    private ImageService $imageService;
 
     /**
      * ServiceService constructor.
      *
      * @param ServiceRepository $serviceRepository
      * @param CategoryService $categoryService
-     * @param ImageService $imageService
      */
-    public function __construct(ServiceRepository $serviceRepository, CategoryService $categoryService, ImageService $imageService)
+    public function __construct(ServiceRepository $serviceRepository, CategoryService $categoryService)
     {
         $this->serviceRepository = $serviceRepository;
         $this->categoryService   = $categoryService;
-        $this->imageService = $imageService;
     }
 
 
@@ -78,37 +72,23 @@ class ServiceService
      *
      * @param Service $service
      *
-     * @param CreateImageForm $fileForm
      *
      * @return bool
      *
-     * @throws \yii\base\InvalidConfigException
      * @throws \Exception
      */
     public function updateService(Service $service)
     {
-        $fileForm = new CreateImageForm();
-        $imageData = UploadedFile::getInstance($service, 'imageFile');
-        $createdImageStatus = true;
-        if (!empty($imageData)) {
-            // if service has old image - delete it
-            $this->imageService->deleteImageByServiceId($service->id);
-            // set new image data in image form
-            $fileForm->imageFile = $imageData;
-            // create image
-            $createdImageStatus = $this->imageService->createImage($fileForm, $service->id);
-            if (!$createdImageStatus) {
-                return false;
-            }
-            // get new created image
-            $createdImage = $this->imageService->getImageByServiceId($service->id);
-            // get new image url
-            $imageUrl = $this->imageService->getImageUrl($createdImage);
-            // set image url in service model
-            $service->main_image_name = $imageUrl;
+        if ($service->user_id === Yii::$app->user->id) {
+            $service->status_id = 9;
         }
 
-        if ($this->serviceRepository->save($service) && $createdImageStatus) {
+        $image = UploadedFile::getInstance($service, 'imageFile');
+        if (!empty($image)) {
+            $service->main_image_name = $this->saveImage($image);
+        }
+
+        if ($this->serviceRepository->save($service)) {
             return true;
         }
 
@@ -181,28 +161,17 @@ class ServiceService
     public function createService(CreateServiceForm $createService)
     {
         $service = new Service();
-        $imageData = UploadedFile::getInstance($createService, 'imageFile');
+        $image = UploadedFile::getInstance($createService, 'imageFile');
         $createService->id = Uuid::uuid4()->toString();
         $createService->user_id = Yii::$app->user->id;
         $service->load($createService->getAttributes(), '');
         $service->status_id = 9;
-        $imageSaveStatus = true;
-        $serviceMainImageStatus = true;
-        $serviceSaveStatus = $this->serviceRepository->save($service);
-        if (!empty($imageData)) {
-            $image = new CreateImageForm();
-            $image->imageFile = $imageData;
-            $imageSaveStatus = $this->imageService->createImage($image, $createService->id);
-            if (!$imageSaveStatus) {
-                return false;
-            }
-            $createdImage = $this->imageService->getImageByServiceId($createService->id);
-            $imageUrl = $this->imageService->getImageUrl($createdImage);
-            $service->main_image_name = $imageUrl;
-            $serviceMainImageStatus = $this->serviceRepository->save($service);
+
+        if (!empty($image)) {
+            $service->main_image_name = $this->saveImage($image);
         }
 
-        if ($serviceSaveStatus && $imageSaveStatus && $serviceMainImageStatus) {
+        if ($this->serviceRepository->save($service)) {
             return true;
         }
 
@@ -248,5 +217,34 @@ class ServiceService
     public function deleteService(Service $service) {
         $service->status_id = 0;
         $this->serviceRepository->save($service);
+    }
+
+    /**
+     * @param UploadedFile $image
+     *
+     * @return string
+     */
+    public function saveImage(UploadedFile $image): string
+    {
+        $filename = $this->generateImageName($image);
+        $path = Yii::getAlias('@frontend') . '/web/uploads/services/';
+        $image->saveAs($path . $filename);
+
+        return $filename;
+    }
+
+    /**
+     * @param UploadedFile $image
+     *
+     * @return string
+     */
+    private function generateImageName(UploadedFile $image): string
+    {
+        do {
+            $name = substr(md5(microtime() . rand(0, 1000)), 0, 20);
+            $file = strtolower($name . '.' . $image->extension);
+        } while (file_exists($file));
+
+        return $file;
     }
 }

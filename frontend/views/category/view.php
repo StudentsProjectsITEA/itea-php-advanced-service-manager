@@ -33,7 +33,10 @@ $this->params['breadcrumbs'][] = Html::encode($category->title);
                             <?php foreach ($services as $service) { ?>
                                 <div class="col mb-4">
                                     <div class="card">
-                                        <?php echo Html::img('/public/imgs/default.jpg', ['alt' => $category->title . ' service']); ?>
+                                        <?php echo Html::img(
+                                            $service->main_image_name ? $service->getImagePath() : '/public/imgs/default.jpg',
+                                            ['alt' => $service->title]
+                                        ); ?>
                                         <div class="card-body">
                                             <h5 class="card-title"><?php echo Html::a($service->title, [Url::to(['/service/view', 'id' => $service->id])]); ?></h5>
                                             <p class="card-text">

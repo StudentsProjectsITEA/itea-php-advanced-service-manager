@@ -31,25 +31,18 @@ class AccountController extends AppControllers
     private ServiceService $serviceService;
 
     /**
-     * @var ImageService
-     */
-    private ImageService $imageService;
-
-    /**
      * AccountController constructor.
      *
      * @param $id
      * @param $module
      * @param UserService $userService
      * @param ServiceService $serviceService
-     * @param ImageService $imageService
      * @param array $config
      */
-    public function __construct($id, $module, UserService $userService, ServiceService $serviceService, ImageService $imageService, $config = [])
+    public function __construct($id, $module, UserService $userService, ServiceService $serviceService, $config = [])
     {
         $this->userService = $userService;
         $this->serviceService = $serviceService;
-        $this->imageService = $imageService;
         parent::__construct($id, $module, $config);
     }
 
